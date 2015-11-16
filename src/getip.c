@@ -4,7 +4,9 @@
 #include <netdb.h> 
 #include <sys/types.h>
 #include <netinet/in.h> 
+#include <arpa/inet.h>
 
+// GET IP
 int main(int argc, char *argv[])
 {
 	struct hostent *h;

@@ -14,6 +14,8 @@ typedef struct {
 	char path[MAX_ARRAY_SIZE];
 	char ftp_url[MAX_ARRAY_SIZE];
 
+	char ip[MAX_ARRAY_SIZE];
+
 	int socket_comms_fd;
 	int socket_data_fd;
 

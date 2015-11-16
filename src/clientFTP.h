@@ -3,8 +3,14 @@
 
 #include "utils.h"
 
-int getipAddress(char * host);
+int getipAddress(char * host, FTPInfo * ftp);
+
 int connectSocket(FTPInfo * ftp);
+
+int loginHost(FTPInfo * ftp);
+
+int sendCommand(FTPInfo* ftp, char* command, int size);
+int readAnswer(FTPInfo* ftp, char* answer, int size);
 
 void setEndereco(char * end);
 char * getEndereco();

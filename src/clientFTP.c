@@ -30,7 +30,7 @@
 
 char * endereco;
 
-int getipAddress(char * host)
+int getipAddress(char * host, FTPInfo * ftp)
 {
 	struct hostent *h;
     
@@ -39,12 +39,11 @@ int getipAddress(char * host)
        	return -1;
     }
 
-    endereco = inet_ntoa(*((struct in_addr *)h->h_addr));
+    strcpy(ftp->ip, inet_ntoa(*((struct in_addr *)h->h_addr)));
 
     return 0;
 }
 
-// Client TCP
 int connectSocket(FTPInfo * ftp) {
 
 	int	sockfd;
@@ -53,7 +52,7 @@ int connectSocket(FTPInfo * ftp) {
 	/*server address handling*/
 	bzero((char*)&server_addr,sizeof(server_addr));
 	server_addr.sin_family = AF_INET;
-	server_addr.sin_addr.s_addr = inet_addr(endereco);	/*32 bit Internet address network byte ordered*/
+	server_addr.sin_addr.s_addr = inet_addr(ftp->ip);	/*32 bit Internet address network byte ordered*/
 	server_addr.sin_port = htons(SERVER_PORT);		/*server TCP port must be network byte ordered */
     
 	/*open an TCP socket*/
@@ -71,6 +70,34 @@ int connectSocket(FTPInfo * ftp) {
     ftp->socket_comms_fd = sockfd;
 	
 	close(sockfd);
+	return 0;
+}
+
+int loginHost(FTPInfo * ftp) {
+	
+}
+
+int readAnswer(FTPInfo* ftp, char* answer, int size){	
+	int bytesRead;
+	memset(answer, 0, size);
+	bytesRead = read(ftp->socket_comms_fd, answer, size);
+	return bytesRead;
+}
+
+int sendCommand(FTPInfo* ftp, char* command, int size){
+
+	int bytesSent = write(ftp->socket_comms_fd, command, size);
+
+	if(bytesSent <= 0){
+		fprintf(stderr, "No information sent to server.\n");
+		return -1;
+	}
+
+	if(bytesSent != size){
+		fprintf(stderr, "Information only partly sent to server\n");
+		return -1;
+	}
+
 	return 0;
 }
 

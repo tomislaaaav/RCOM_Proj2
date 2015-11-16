@@ -25,6 +25,13 @@ int main (int argc, char **argv) {
 	}
 
 	fprintf(stderr, "\nHost: %s\nUser: %s\nPassword: %s\nPath: %s\n", ftp->host, ftp->user, ftp->password, ftp->path);
+
+	if (loginHost(ftp) != 0) {
+		fprintf(stderr, "Exiting Program\n");
+		return -1;
+	}
+
+	
 	
 	return 0;
 }

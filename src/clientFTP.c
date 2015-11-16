@@ -69,7 +69,6 @@ int connectSocket(FTPInfo * ftp) {
 	}
     ftp->socket_comms_fd = sockfd;
 	
-	close(sockfd);
 	return 0;
 }
 
@@ -77,7 +76,7 @@ int loginHost(FTPInfo * ftp) {
 
 	char command[4 + 1 + 1 + strlen(ftp->user)]; //o 6 vem dos espaços e do 'user' e do /n
 	
-	char answer[MAX_ARRAY_SIZE];
+	char answer[MAX_STRING_SIZE];
 
 	int ret, bytesReadPass, bytesReadUser;
 
@@ -87,7 +86,7 @@ int loginHost(FTPInfo * ftp) {
 		return -1;
 	}
 
-	if ((bytesReadUser = readAnswer(ftp, answer, MAX_ARRAY_SIZE))) {
+	if ((bytesReadUser = readAnswer(ftp, answer, MAX_STRING_SIZE)) == 0) {
 		fprintf(stderr, "Error reading answer from username\n");
 		return -1;
 	}
@@ -98,10 +97,20 @@ int loginHost(FTPInfo * ftp) {
 		return -1;
 	}
 
-	if ((bytesReadPass = readAnswer(ftp, answer, MAX_ARRAY_SIZE))) {
+	if ((bytesReadPass = readAnswer(ftp, answer, MAX_STRING_SIZE)) == 0) {
 		fprintf(stderr, "Error reading answer from password\n");
 		return -1;
 	}
+
+	int reply;
+	sscanf(answer, "%d", &reply);
+
+	if (reply == LOGIN_FAIL) {
+		fprintf(stderr, "Wrong combination.\n");
+		return -1;
+	}
+
+	fprintf(stderr, "Successfully logged in ip: %s\n", ftp->ip);
 
 	return 0;
 }

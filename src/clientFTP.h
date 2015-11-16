@@ -3,7 +3,7 @@
 
 #include "utils.h"
 
-int getipAddress(char * host, FTPInfo * ftp);
+int getipAddress(FTPInfo * ftp);
 
 int connectSocket(FTPInfo * ftp);
 

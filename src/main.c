@@ -25,6 +25,9 @@ int main (int argc, char **argv) {
 	}
 
 	while (menu) {
+
+		system("clear");
+
 		printf("FTP Client\n\n");
 		printf("1 - Run application.\n");
 		printf("2 - Change Settings.\n");

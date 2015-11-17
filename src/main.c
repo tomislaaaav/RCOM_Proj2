@@ -33,7 +33,13 @@ int main (int argc, char **argv) {
 		printf("2 - Change Settings.\n");
 		printf("3 - Close application.\n");
 		printf("Your option: %d", opt);
- 		// fazer read
+
+ 		if (read(STANDARD_INPUT, opt, 128) < 0) {
+ 			fprintf("Error reading user input. Rebooting Client.\n\n");
+ 			sleep(2);
+ 			break;
+ 		}
+
 		switch(opt) {
 			case RUN:
 			if (runApp(ftp) != 0) {

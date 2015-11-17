@@ -24,6 +24,9 @@
 #define TRUE 0
 #define FALSE 1
 
+#define STANDARD_INPUT 0
+#define STANDARD_OUTPUT 1
+#define STANDARD_ERROR 2
 
 typedef struct {
 	

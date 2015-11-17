@@ -1,7 +1,7 @@
 #ifndef UTILS__H
 #define UTILS__H
 
-#define MAX_ARRAY_SIZE 999
+#define MAX_ARRAY_SIZE 100
 #define MAX_STRING_SIZE 255
 
 #define SERVER_PORT 21

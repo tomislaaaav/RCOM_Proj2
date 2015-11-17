@@ -1,20 +1,3 @@
-// connect ao FTP, chamando connect socket
-
-// connect socket:
-
-	// abrir socket para connect ao FTP
-	// login no FTP
-	// esperar resposta (replyCode), checkar e atuar
-	// se der erro, terminar socket, terminar programa
-	
-	// entrar em modo passivo, calcular os últimos 2 bytes (penultimo * 256 + ultimo) DONE
-	// os primeiros 4 bytes serão o ip do segundo socket, que servirá para fazer download !
-	// abrir socket e guardar
-	// pedir ficheiro ao FTP atraves do primeiro socket
-	// usar o segundo socket e ler o ficheiro atraves de packets (ler, escrever, ler, escrever)
-	// fechar os 2 sockets (close do fd). antes, mandar comando quit para primeiro
-	// terminar programa
-
 #include "clientFTP.h"
 #include <stdio.h> 
 #include <stdlib.h> 
@@ -27,8 +10,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <string.h>
-
-char * endereco;
+#include <libgen.h>
 
 int getipAddress(FTPInfo * ftp)
 {
@@ -204,7 +186,7 @@ int retrFile(FTPInfo *ftp) {
 
 	int ret, bytesReadRetr;
 
-	if ((ret = sendCommand(ftp, "retr \n", strlen("retr\n"))) != 0) {
+	if ((ret = sendCommand(ftp, command, strlen(command))) != 0) {
 		fprintf(stderr, "Error sendind retr command\n");
 		return -1;
 	}
@@ -225,12 +207,48 @@ int retrFile(FTPInfo *ftp) {
 	}
 	else if (reply == FILE_SUCCESS) {
 
+		char * init = strrchr(answer, '(');
+
+		char fill[MAX_ARRAY_SIZE];
+
+		strcpy(fill, init);
+
+		int size;
+
+		sscanf(fill, "(%d bytes).", &size);
+		ftp->fileSize = size;
+		return 0;
 	}
 	else {
 		fprintf(stderr, "Unexpected reply.\n");
 		return -1;
 	}
+}
 
+int downloadFile(FTPInfo *ftp) {
+
+	char data_packet[DATA_PACKET_SIZE];
+	int bytesRead;
+	int bytesWritten = 0;
+
+	char * fileName = basename(ftp->path);
+
+	FILE * fileW = fopen(fileName, "w");
+
+	while ((bytesRead = read(ftp->socket_data_fd, data_packet, DATA_PACKET_SIZE)) != 0) {
+		if (bytesRead < 0) {
+			fprintf(stderr, "Error reading file.\n");
+			return -1;
+		}
+		bytesWritten+=bytesRead;
+		fprintf(stderr, "Downloading File: %.2f%%\n", (double)(bytesWritten*100)/ftp->fileSize);
+		fwrite(data_packet, sizeof(char), bytesRead, fileW);
+			if (ferror(fileW) != 0) {
+				fprintf(stderr, "Error writing into file.\n");
+				return -1;
+			}
+	}
+	
 	return 0;
 }
 
@@ -256,12 +274,4 @@ int sendCommand(FTPInfo* ftp, char* command, int size){
 	}
 
 	return 0;
-}
-
-void setEndereco(char * end) {
-	endereco = end;
-}
-
-char * getEndereco() {
-	return endereco;
 }

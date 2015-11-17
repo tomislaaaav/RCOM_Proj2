@@ -19,7 +19,4 @@ int readAnswer(FTPInfo* ftp, char* answer, int size);
 int retrFile(FTPInfo* ftp);
 int downloadFile(FTPInfo *ftp);
 
-void setEndereco(char * end);
-char * getEndereco();
-
 #endif

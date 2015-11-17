@@ -7,9 +7,9 @@
 int validURL(char * url, int size) {
 
 	regex_t regExpression;
-	int retReg;
+	int retReg = regcomp(&regExpression, "ftp://[[a-zA-Z0-9]+:[a-zA-Z0-9]+@][a-zA-Z0-9._~:/?#@!$&'()*+,;=]+/[a-zA-Z0-9._~:/?#@!$&'()*+,;=]+", REG_EXTENDED);
 
-	if (retReg = regcomp(&regExpression, "ftp://[[a-zA-Z0-9]+:[a-zA-Z0-9]+@][a-zA-Z0-9._~:/?#@!$&'()*+,;=]+/[a-zA-Z0-9._~:/?#@!$&'()*+,;=]+", REG_EXTENDED)) {
+	if (retReg) {
 		fprintf(stderr, "Can't compile RegExpression\n");
 		return -1;
 	}

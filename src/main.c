@@ -41,12 +41,19 @@ int main (int argc, char **argv) {
 		return -1;
 	}
 
+	if (downloadFile(ftp) != 0) {
+		fprintf(stderr, "Exiting Program\n");
+		return -1;
+	}
+
 	if (closeSockets(ftp) != 0) {
 		fprintf(stderr, "Exiting Program\n");
 		return -1;
 	}
 
 	fprintf(stderr, "Program runned without errors.\n");
+
+	free(ftp);
 	
 	return 0;
 }

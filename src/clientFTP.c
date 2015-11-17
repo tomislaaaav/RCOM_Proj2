@@ -227,7 +227,7 @@ int retrFile(FTPInfo *ftp) {
 
 int downloadFile(FTPInfo *ftp) {
 
-	char data_packet[DATA_PACKET_SIZE];
+	char data_packet[ftp->data_size_packet];
 	int bytesRead;
 	int bytesWritten = 0;
 
@@ -235,7 +235,7 @@ int downloadFile(FTPInfo *ftp) {
 
 	FILE * fileW = fopen(fileName, "w");
 
-	while ((bytesRead = read(ftp->socket_data_fd, data_packet, DATA_PACKET_SIZE)) != 0) {
+	while ((bytesRead = read(ftp->socket_data_fd, data_packet, ftp->data_size_packet)) != 0) {
 		if (bytesRead < 0) {
 			fprintf(stderr, "Error reading file.\n");
 			return -1;

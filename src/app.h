@@ -7,6 +7,6 @@ int runApp(FTPInfo *ftp);
 
 int runSettings(FTPInfo *ftp);
 
-int closeFTP(FTPInfo * ftp);
+int closeFTP(FTPInfo *ftp, int app_init);
 
 #endif

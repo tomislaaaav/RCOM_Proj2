@@ -11,10 +11,12 @@
 #define FILE_FAIL 550
 #define LOGIN_FAIL 530
 #define FILE_SUCCESS 150
-#define DATA_PACKET_SIZE 8192
+#define DATA_PACKET_SIZE 100
 
 #define DONT_READ 0
 #define READ 1
+#define SOCKETS_INIT 0
+#define SOCKETS_NOT_INIT 1
 
 #define START 0
 #define RUN 1
@@ -44,6 +46,8 @@ typedef struct {
 	int fileSize;
 
 	int pasv;
+
+	int data_size_packet;
 
 } FTPInfo;
 

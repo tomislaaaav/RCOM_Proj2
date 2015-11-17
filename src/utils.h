@@ -16,6 +16,15 @@
 #define DONT_READ 0
 #define READ 1
 
+#define START 0
+#define RUN 1
+#define SETTINGS 2
+#define CLOSE 3
+
+#define TRUE 0
+#define FALSE 1
+
+
 typedef struct {
 	
 	char host[MAX_ARRAY_SIZE];

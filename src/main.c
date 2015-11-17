@@ -24,9 +24,14 @@ int main (int argc, char **argv) {
 		return -1;
 	}
 
-	fprintf(stderr, "\nHost: %s\nUser: %s\nPassword: %s\nPath: %s\n", ftp->host, ftp->user, ftp->password, ftp->path);
+	fprintf(stderr, "\nHost: %s\nUser: %s\nPassword: %s\nPath: %s\n\n", ftp->host, ftp->user, ftp->password, ftp->path);
 
 	if (loginHost(ftp) != 0) {
+		fprintf(stderr, "Exiting Program\n");
+		return -1;
+	}
+
+	if (setPasv(ftp) != 0) {
 		fprintf(stderr, "Exiting Program\n");
 		return -1;
 	}

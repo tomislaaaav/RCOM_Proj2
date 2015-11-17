@@ -9,6 +9,8 @@ int connectSocket(FTPInfo * ftp);
 
 int loginHost(FTPInfo * ftp);
 
+int setPasv(FTPInfo * ftp);
+
 int sendCommand(FTPInfo* ftp, char* command, int size);
 int readAnswer(FTPInfo* ftp, char* answer, int size);
 

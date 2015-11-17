@@ -7,7 +7,7 @@
 	// esperar resposta (replyCode), checkar e atuar
 	// se der erro, terminar socket, terminar programa
 	
-	// entrar em modo passivo, calcular os últimos 2 bytes (penultimo * 256 + ultimo)
+	// entrar em modo passivo, calcular os últimos 2 bytes (penultimo * 256 + ultimo) DONE
 	// os primeiros 4 bytes serão o ip do segundo socket, que servirá para fazer download
 	// abrir socket e guardar
 	// pedir ficheiro ao FTP atraves do primeiro socket
@@ -68,6 +68,14 @@ int connectSocket(FTPInfo * ftp) {
 		return -1;
 	}
     ftp->socket_comms_fd = sockfd;
+
+    int ret;
+    char answer[MAX_STRING_SIZE];
+
+    if ((ret = readAnswer(ftp, answer, MAX_STRING_SIZE)) == 0) {
+		fprintf(stderr, "Error reading answer from connection\n");
+		return -1;
+	}
 	
 	return 0;
 }
@@ -90,6 +98,8 @@ int loginHost(FTPInfo * ftp) {
 		fprintf(stderr, "Error reading answer from username\n");
 		return -1;
 	}
+	fprintf(stderr, "%s\n", answer);
+
 
 	sprintf(command,"pass %s\n", ftp->password);
 	if ((ret = sendCommand(ftp, command, strlen(command))) != 0) {
@@ -101,6 +111,8 @@ int loginHost(FTPInfo * ftp) {
 		fprintf(stderr, "Error reading answer from password\n");
 		return -1;
 	}
+	fprintf(stderr, "%s\n", answer);
+
 
 	int reply;
 	sscanf(answer, "%d", &reply);
@@ -111,6 +123,37 @@ int loginHost(FTPInfo * ftp) {
 	}
 
 	fprintf(stderr, "Successfully logged in ip: %s\n", ftp->ip);
+
+	return 0;
+}
+
+
+int setPasv(FTPInfo * ftp) {
+	
+	char answer[MAX_STRING_SIZE];
+
+	int ret, bytesReadPasv;
+
+	int ip1, ip2, ip3, ip4, port1, port2;
+
+	if ((ret = sendCommand(ftp, "pasv\n", strlen("pasv\n"))) != 0) {
+		fprintf(stderr, "Error sendind pasv command\n");
+		return -1;
+	}
+
+	if ((bytesReadPasv = readAnswer(ftp, answer, MAX_STRING_SIZE)) == 0) {
+		fprintf(stderr, "Error reading answer from pasv\n");
+		return -1;
+	}
+
+	fprintf(stderr, "%s\n", answer);
+
+	if ((sscanf(answer, "227 Entering Passive Mode (%d,%d,%d,%d,%d,%d)", &ip1, &ip2, &ip3, &ip4, &port1, &port2)) < 0){
+		fprintf(stderr, "Error parsing the ports from passive mode.\n");
+		return -1;
+	}
+
+	ftp->pasv = port1 * 256 + port2;
 
 	return 0;
 }

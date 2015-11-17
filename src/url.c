@@ -1,6 +1,5 @@
 // pegar no FTP e debugar em parametros
 #include "url.h"
-#include "utils.h"
 #include <string.h>
 #include <stdio.h>
 #include <regex.h>
@@ -8,9 +7,9 @@
 int validURL(char * url, int size) {
 
 	regex_t regExpression;
-	int retReg;
+	int retReg = regcomp(&regExpression, "ftp://[[a-zA-Z0-9]+:[a-zA-Z0-9]+@][a-zA-Z0-9._~:/?#@!$&'()*+,;=]+/[a-zA-Z0-9._~:/?#@!$&'()*+,;=]+", REG_EXTENDED);
 
-	if (retReg = regcomp(&regExpression, "ftp://[[a-zA-Z0-9]+:[a-zA-Z0-9]+@][a-zA-Z0-9._~:/?#@!$&'()*+,;=]+/[a-zA-Z0-9._~:/?#@!$&'()*+,;=]+", REG_EXTENDED)) {
+	if (retReg) {
 		fprintf(stderr, "Can't compile RegExpression\n");
 		return -1;
 	}
@@ -28,7 +27,7 @@ int validURL(char * url, int size) {
 	}
 }
 
-int parseURL(char* url, int size, char* host, char* user, char* password, char* path, char * ftp_url) {
+int parseURL(char* url, int size, FTPInfo * ftp) {
 
 	char * temp_url = url;
 
@@ -36,50 +35,48 @@ int parseURL(char* url, int size, char* host, char* user, char* password, char* 
 
 	int i = 0;
 	while(temp_url != temp_path){
-		ftp_url[i] = *temp_url;
+		ftp->ftp_url[i] = *temp_url;
 		i++;
 		temp_url++;
 	}
 	
 	temp_url++;
-	ftp_url[i] = '\0';
+	ftp->ftp_url[i] = '\0';
 
 	temp_path = strchr(temp_url, ':');
 	i = 0;
 
 	while(temp_url != temp_path){
-		user[i] = *temp_url;
+		ftp->user[i] = *temp_url;
 		i++;
 		temp_url++;
 	} 
 	temp_url++;
-	user[i] = '\0';
+	ftp->user[i] = '\0';
 
 	temp_path = strchr(temp_url, '@');
 	i = 0;
 
 	while(temp_url != temp_path) {
-		password[i] = *temp_url;
+		ftp->password[i] = *temp_url;
 		i++;
 		temp_url++;
 	}
 	temp_url+=2;
-	password[i] = '\0';
+	ftp->password[i] = '\0';
 
 	temp_path = strchr(temp_url, '/');
 	i = 0;
 
 	while(temp_url != temp_path) {
-		host[i] = *temp_url;
+		ftp->host[i] = *temp_url;
 		i++;
 		temp_url++;
 	}
 	temp_url++;
-	host[i] = '\0';
+	ftp->host[i] = '\0';
 
-	strcpy(path, temp_url);
-
-	fprintf(stderr, "\nHost: %s\nUser: %s\nPassword: %s\nPath: %s\n", host, user, password, path);
+	strcpy(ftp->path, temp_url);
 
 	return 0;
 }

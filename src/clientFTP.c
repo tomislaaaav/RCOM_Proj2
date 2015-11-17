@@ -8,7 +8,7 @@
 	// se der erro, terminar socket, terminar programa
 	
 	// entrar em modo passivo, calcular os últimos 2 bytes (penultimo * 256 + ultimo) DONE
-	// os primeiros 4 bytes serão o ip do segundo socket, que servirá para fazer download
+	// os primeiros 4 bytes serão o ip do segundo socket, que servirá para fazer download !
 	// abrir socket e guardar
 	// pedir ficheiro ao FTP atraves do primeiro socket
 	// usar o segundo socket e ler o ficheiro atraves de packets (ler, escrever, ler, escrever)
@@ -44,7 +44,7 @@ int getipAddress(FTPInfo * ftp)
     return 0;
 }
 
-int connectSocket(FTPInfo * ftp) {
+int connectSocket(FTPInfo * ftp, char * ip, int port, int flag) {
 
 	int	sockfd;
 	struct	sockaddr_in server_addr;
@@ -52,8 +52,8 @@ int connectSocket(FTPInfo * ftp) {
 	/*server address handling*/
 	bzero((char*)&server_addr,sizeof(server_addr));
 	server_addr.sin_family = AF_INET;
-	server_addr.sin_addr.s_addr = inet_addr(ftp->ip);	/*32 bit Internet address network byte ordered*/
-	server_addr.sin_port = htons(SERVER_PORT);		/*server TCP port must be network byte ordered */
+	server_addr.sin_addr.s_addr = inet_addr(ip);	/*32 bit Internet address network byte ordered*/
+	server_addr.sin_port = htons(port);		/*server TCP port must be network byte ordered */
     
 	/*open an TCP socket*/
 	if ((sockfd = socket(AF_INET,SOCK_STREAM,0)) < 0) {
@@ -67,14 +67,18 @@ int connectSocket(FTPInfo * ftp) {
         	perror("connect()");
 		return -1;
 	}
-    ftp->socket_comms_fd = sockfd;
+	if (port == 21)
+    	ftp->socket_comms_fd = sockfd;
+    else ftp->socket_data_fd = sockfd;
 
     int ret;
     char answer[MAX_STRING_SIZE];
 
-    if ((ret = readAnswer(ftp, answer, MAX_STRING_SIZE)) == 0) {
-		fprintf(stderr, "Error reading answer from connection\n");
-		return -1;
+    if (flag == READ) {
+	    if ((ret = readAnswer(ftp, answer, MAX_STRING_SIZE)) == 0) {
+			fprintf(stderr, "Error reading answer from connection\n");
+			return -1;
+		}
 	}
 	
 	return 0;
@@ -154,6 +158,57 @@ int setPasv(FTPInfo * ftp) {
 	}
 
 	ftp->pasv = port1 * 256 + port2;
+
+	char ip[MAX_IP_SIZE];
+
+	// os primeiros 4 bytes serão o ip do segundo socket, que servirá para fazer download !
+	sprintf(ip, "%d.%d.%d.%d", ip1, ip2, ip3, ip4);
+	
+	if (connectSocket(ftp, ip, ftp->pasv, DONT_READ) != 0) {
+		fprintf(stderr, "Error connecting the data socket.\n");
+		return -1;
+	}
+	
+	return 0;
+}
+
+int retrFile(FTPInfo *ftp) {
+	char answer[MAX_STRING_SIZE];
+
+	char command[4 + 1 + 1 + strlen(ftp->path)];
+
+	sprintf(command, "retr %s\n", ftp->path);
+
+	fprintf(stderr, "Retrieving file: %s\n", ftp->path);
+
+	int ret, bytesReadRetr;
+
+	if ((ret = sendCommand(ftp, "retr \n", strlen("retr\n"))) != 0) {
+		fprintf(stderr, "Error sendind retr command\n");
+		return -1;
+	}
+
+	if ((bytesReadRetr = readAnswer(ftp, answer, MAX_STRING_SIZE)) == 0) {
+		fprintf(stderr, "Error reading answer from retr\n");
+		return -1;
+	}
+	fprintf(stderr, "%s\n", answer);
+
+	int reply;
+
+	sscanf(answer, "%d", &reply);
+
+	if (reply == FILE_FAIL) {
+		fprintf(stderr, "File failed opening.\n");
+		return -1;
+	}
+	else if (reply == FILE_SUCCESS) {
+
+	}
+	else {
+		fprintf(stderr, "Unexpected reply.\n");
+		return -1;
+	}
 
 	return 0;
 }

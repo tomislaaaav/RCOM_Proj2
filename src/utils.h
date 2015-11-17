@@ -8,10 +8,13 @@
 #define SERVER_ADDR "tom.fe.up.pt"
 
 #define MAX_IP_SIZE	15
-#define OPEN_FILE_FAIL 550
+#define FILE_FAIL 550
 #define LOGIN_FAIL 530
-#define OPEN_FILE_SUCCESS 150
+#define FILE_SUCCESS 150
 #define DATA_PACKET_SIZE 8192
+
+#define DONT_READ 0
+#define READ 1
 
 typedef struct {
 	

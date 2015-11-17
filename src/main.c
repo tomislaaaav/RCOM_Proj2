@@ -19,7 +19,7 @@ int main (int argc, char **argv) {
 		return -1;
 	}
 	
-	if (connectSocket(ftp) != 0) {
+	if (connectSocket(ftp, ftp->ip, SERVER_PORT, READ) != 0) {
 		fprintf(stderr, "Exiting Program\n");
 		return -1;
 	}
@@ -32,6 +32,11 @@ int main (int argc, char **argv) {
 	}
 
 	if (setPasv(ftp) != 0) {
+		fprintf(stderr, "Exiting Program\n");
+		return -1;
+	}
+
+	if (retrFile(ftp) != 0) {
 		fprintf(stderr, "Exiting Program\n");
 		return -1;
 	}

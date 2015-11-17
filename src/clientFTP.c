@@ -44,6 +44,27 @@ int getipAddress(FTPInfo * ftp)
     return 0;
 }
 
+int closeSockets(FTPInfo * ftp) {
+	char answer[MAX_STRING_SIZE];
+
+	int ret, bytesReadQuit;
+
+	if ((ret = sendCommand(ftp, "quit\n", strlen("quit\n"))) != 0) {
+		fprintf(stderr, "Error sendind quit command\n");
+		return -1;
+	}
+
+	if ((bytesReadQuit = readAnswer(ftp, answer, MAX_STRING_SIZE)) == 0) {
+		fprintf(stderr, "Error reading answer from quit\n");
+		return -1;
+	}
+	fprintf(stderr, "%s\n", answer);
+
+	close(ftp->socket_comms_fd);
+	close(ftp->socket_data_fd);
+	return 0;
+}
+
 int connectSocket(FTPInfo * ftp, char * ip, int port, int flag) {
 
 	int	sockfd;

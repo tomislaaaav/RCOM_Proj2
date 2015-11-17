@@ -7,6 +7,8 @@ int getipAddress(FTPInfo * ftp);
 
 int connectSocket(FTPInfo * ftp, char * ip, int port, int flag);
 
+int closeSockets(FTPInfo * ftp);
+
 int loginHost(FTPInfo * ftp);
 
 int setPasv(FTPInfo * ftp);

@@ -2,14 +2,14 @@ tux11
 /etc/init.d/networking restart
 ifconfig eth0 up
 ifconfig
-ifconfig eth0 172.16.10.0/24
+ifconfig eth0 172.16.10.0
 route add default gw 172.16.10.254
 
 tux14
 /etc/init.d/networking restart
 ifconfig eth0 up
 ifconfig
-ifconfig eth0 172.16.10.254/24
+ifconfig eth0 172.16.10.254
 route add default gw 172.16.10.254
 
 

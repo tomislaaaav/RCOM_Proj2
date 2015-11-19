@@ -1,0 +1,23 @@
+tux12
+/etc/init.d/networking restart
+ifconfig eth0 up
+ifconfig
+ifconfig eth0 172.16.11.1
+
+MAC = HWaddr -> 	tux12 - 00:21:5a:61:2e:c3
+			
+IP = INET -> 		tux12 - 172.16.11.1
+
+ligar switch da consola ao tux pretendido. (porta S)
+abrir gkterm
+enter enter
+enable
+8nortel = password
+
+configure terminal
+vlan 10
+end
+show vlan id 10
+
+/* adicionar tux14 e tux11 a vlan 10 */
+

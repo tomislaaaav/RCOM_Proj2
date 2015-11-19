@@ -13,6 +13,8 @@ int main (int argc, char **argv) {
 		return -1;
 	}
 	else parseURL(argv[1], sizeof(argv[1]), ftp);
+	
+	fprintf(stderr, "\nHost: %s\nUser: %s\nPassword: %s\nPath: %s\n\n", ftp->host, ftp->user, ftp->password, ftp->path);
 
 	if (getipAddress(ftp) != 0) {
 		fprintf(stderr, "Exiting Program\n");

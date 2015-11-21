@@ -7,7 +7,7 @@
 int validURL(char * url, int size) {
 
 	regex_t regExpression;
-	int retReg = regcomp(&regExpression, "ftp://[[a-zA-Z0-9]+:[a-zA-Z0-9]+@][a-zA-Z0-9._~:/?#@!$&'()*+,;=]+/[a-zA-Z0-9._~:/?#@!$&'()*+,;=]+", REG_EXTENDED);
+	int retReg = regcomp(&regExpression, "ftp://+[a-zA-Z0-9]+:[a-zA-Z0-9]+@+[a-zA-Z0-9._~:/?#@!$&'()*+,;=]+/[a-zA-Z0-9._~:/?#@!$&'()*+,;=]+", REG_EXTENDED);
 
 	if (retReg) {
 		fprintf(stderr, "Can't compile RegExpression\n");
@@ -29,22 +29,10 @@ int validURL(char * url, int size) {
 
 int parseURL(char* url, int size, FTPInfo * ftp) {
 
-	char * temp_url = url;
+	char * temp_url = url + 6;
 
-	char * temp_path = strchr(temp_url, '[');
-
+	char * temp_path = strchr(temp_url, ':');
 	int i = 0;
-	while(temp_url != temp_path){
-		ftp->ftp_url[i] = *temp_url;
-		i++;
-		temp_url++;
-	}
-	
-	temp_url++;
-	ftp->ftp_url[i] = '\0';
-
-	temp_path = strchr(temp_url, ':');
-	i = 0;
 
 	while(temp_url != temp_path){
 		ftp->user[i] = *temp_url;
@@ -62,7 +50,7 @@ int parseURL(char* url, int size, FTPInfo * ftp) {
 		i++;
 		temp_url++;
 	}
-	temp_url+=2;
+	temp_url++;
 	ftp->password[i] = '\0';
 
 	temp_path = strchr(temp_url, '/');

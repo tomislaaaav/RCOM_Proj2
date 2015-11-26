@@ -16,18 +16,6 @@ aceder ao switch:
 	enable
 	8nortel = password
 
-aceder ao router:
-	root
-	8nortel
-	
-configure terminal
-vlan 10
-end
-show vlan id 10
-
-/* adicionar tux14 e tux11 a vlan 10 */
-
-
 "limpar switch":
 configure terminal
 no vlan 2-4094
@@ -35,7 +23,18 @@ exit
 copy flash:tux1-clean startup-config
 reload
 
-
+aceder ao router:
+	root
+	8nortel
+	
 "limpar router":
 copy flash:tux1-clean startup config
 reload
+
+configure terminal
+vlan 10
+end
+show vlan id 10
+
+/* adicionar tux14 e tux11 a vlan 10 */
+

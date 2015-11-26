@@ -35,10 +35,69 @@ copy flash:tux1-clean startup-config
 reload
 <enter>
 
+__________________________________
+(tem de estar no switch)
+Criar vlan10
+
 configure terminal
 vlan 10
 end
 show vlan id 10
 
+NOTA: por os cabos 11 a 0/1, 14 a 0/4, 12 a 0/2
 /* adicionar tux14 e tux11 a vlan 10 */
+Adicionar o tux11
+
+configure terminal
+interface fastethernet 0/1
+switchport mode access
+switchport access vlan 10
+end
+show running-config interface fastethernet 0/1
+show interfaces fastethernet 0/1 switchport
+
+Adicionar o tux14
+
+configure terminal
+interface fastethernet 0/4
+switchport mode access
+switchport access vlan 10
+end
+show running-config interface fastethernet 0/4
+show interfaces fastethernet 0/4 switchport
+
+Criar vlan 11
+
+configure terminal
+vlan 11
+end
+show vlan id 11
+
+Adicionar o tux12
+
+configure terminal
+interface fastethernet 0/2
+switchport mode access
+switchport access vlan 11
+end
+show running-config interface fastethernet 0/2
+show interfaces fastethernet 0/2 switchport
+
+Ir a tux11
+ping 172.16.10.254
+ping 172.16.11.1
+
+Ir a tux12
+ping 172.16.10.1
+ping 172.16.10.254
+
+Ir a tux14
+ping 172.16.10.1
+ping 172.16.11.1
+
+Ir a tux11 (com os wiresharks abertos em todos os tux)
+ping -b 172.16.10.255
+
+Ir a tux 12 (com os wiresharks abertos em todos os tux)
+ping -b 172.16.11.255
 

@@ -11,9 +11,15 @@ IP = INET -> 		tux12 - 172.16.11.1
 ligar switch da consola ao tux pretendido. (porta S)
 abrir gkterm
 enter enter
-enable
-8nortel = password
 
+aceder ao switch:
+	enable
+	8nortel = password
+
+aceder ao router:
+	root
+	8nortel
+	
 configure terminal
 vlan 10
 end

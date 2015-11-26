@@ -1,0 +1,10 @@
+Adicionar tux14 a vlan11
+
+configure terminal
+interface fastethernet 0/4
+switchport mode access
+switchport access vlan 11
+end
+show running-config interface fastethernet 0/4
+show interfaces fastethernet 0/4 switchport
+

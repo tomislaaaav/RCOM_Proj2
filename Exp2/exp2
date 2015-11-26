@@ -21,3 +21,15 @@ show vlan id 10
 
 /* adicionar tux14 e tux11 a vlan 10 */
 
+
+"limpar switch":
+configure terminal
+no vlan 2-4094
+exit
+copy flash:tux1-clean startup-config
+reload
+
+
+"limpar router":
+copy flash:tux1-clean startup config
+reload

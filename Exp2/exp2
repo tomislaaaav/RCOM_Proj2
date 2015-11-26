@@ -2,7 +2,7 @@ tux12
 /etc/init.d/networking restart
 ifconfig eth0 up
 ifconfig
-ifconfig eth0 172.16.11.1
+ifconfig eth0 172.16.11.1/24
 
 MAC = HWaddr -> 	tux12 - 00:21:5a:61:2e:c3
 			

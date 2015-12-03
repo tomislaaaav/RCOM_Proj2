@@ -1,0 +1,67 @@
+/* INICIO DA PRIMEIRA EXPERIENCIA */
+/etc/init.d/networking restart
+ifconfig eth0 up
+ifconfig
+ifconfig eth0 172.16.10.1/24
+route add default gw 172.16.10.254
+
+ping 172.16.10.254
+
+route -n
+arp -a
+
+arp -d 172.16.10.254
+arp -a
+/* FIM DA PRIMEIRA EXPERIENCIA */
+
+/* INICIO DA SEGUNDA EXPERIENCIA */
+configure terminal
+vlan 10
+end
+show vlan id 10
+
+configure terminal
+interface fastethernet 0/1
+switchport mode access
+switchport access vlan 10
+end
+show running-config interface fastethernet 0/1
+show interfaces fastethernet 0/1 switchport
+
+configure terminal
+interface fastethernet 0/4
+switchport mode access
+switchport access vlan 10
+end
+show running-config interface fastethernet 0/4
+show interfaces fastethernet 0/4 switchport
+
+configure terminal
+vlan 11
+end
+show vlan id 11
+
+configure terminal
+interface fastethernet 0/2
+switchport mode access
+switchport access vlan 11
+end
+show running-config interface fastethernet 0/2
+show interfaces fastethernet 0/2 switchport
+
+ping 172.16.10.254
+ping 172.16.11.1
+
+ping -b 172.16.10.255
+/* FIM DA SEGUNDA EXPERIENCIA */
+
+/* INICIO DA TERCEIRA EXPERIENCIA */
+configure terminal
+interface fastethernet 0/8
+switchport mode access
+switchport access vlan 11
+end
+show running-config interface fastethernet 0/8
+show interfaces fastethernet 0/8 switchport
+
+arp -d 172.16.10.254

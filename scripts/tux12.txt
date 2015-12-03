@@ -1,0 +1,17 @@
+/* INICIO DA SEGUNDA EXPERIÊNCIA */
+/etc/init.d/networking restart
+ifconfig eth0 up
+ifconfig
+ifconfig eth0 172.16.11.1/24
+
+ping 172.16.10.1
+ping 172.16.10.254
+
+ping -b 172.16.11.255
+/* FIM DA SEGUNDA EXPERIÊNCIA */
+
+/* INICIO DA TERCEIRA EXPERIÊNCIA */
+route add default gw 172.16.11.253
+
+arp -d 172.16.11.253
+/* FIM DA TERCEIRA EXPERIÊNCIA */

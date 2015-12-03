@@ -1,12 +1,12 @@
-Adicionar tux14 a vlan11 (por cabo no vlan 3 para o tux14)
+Adicionar tux14 a vlan11 (por cabo no vlan 8 para o tux14)
 
 configure terminal
-interface fastethernet 0/3
+interface fastethernet 0/8
 switchport mode access
 switchport access vlan 11
 end
-show running-config interface fastethernet 0/3
-show interfaces fastethernet 0/3 switchport
+show running-config interface fastethernet 0/8
+show interfaces fastethernet 0/8 switchport
 
 Entrar no tux14
 
@@ -26,3 +26,41 @@ eth1
 MAC = HWaddr -> 	tux14 - 00:c0:df:04:20:99
 			
 IP = INET -> 		tux14 - 172.16.11.253
+
+Entrar no tux12
+
+route add default gw 172.16.11.253
+
+route -n17
+
+Entrar no tux11
+
+route -n
+
+Entrar no tux14
+
+route -n
+
+Começar captura no tux11
+Entrar no tux11
+ping 172.16.10.254
+ping 172.16.11.253
+ping 172.16.11.1
+
+Começar captura no tux14, uma no eth0, outra no eth1
+Entrar no tux14
+ping 172.16.10.254
+ping 172.16.11.253
+
+arp -d 172.16.10.1
+arp -d 172.16.11.1
+
+Entrar no tux11
+arp -d 172.16.10.254
+
+Entrar no tux12
+arp -d 172.16.11.253
+
+Começar captura no tux14, uma no eth0, outra no eth1
+Entrar no tux11
+ping 172.16.11.1

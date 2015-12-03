@@ -100,4 +100,3 @@ ping -b 172.16.10.255
 
 Ir a tux 12 (com os wiresharks abertos em todos os tux)
 ping -b 172.16.11.255
-

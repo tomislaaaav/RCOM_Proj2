@@ -65,3 +65,14 @@ show running-config interface fastethernet 0/8
 show interfaces fastethernet 0/8 switchport
 
 arp -d 172.16.10.254
+/* FIM DA TERCEIRA EXPERIÊNCIA */
+
+/* INICIO DA QUARTA EXPERIÊNCIA */
+
+configure terminal
+interface fastethernet 0/10
+switchport mode access
+switchport access vlan 11
+end
+show running-config interface fastethernet 0/10
+show interfaces fastethernet 0/10 switchport

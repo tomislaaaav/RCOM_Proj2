@@ -1,1 +1,25 @@
- 
+Ligar o cabo 1.2 ao router GEO/0
+Ligar um cabo router GEO/1 para 0/10
+
+Adicionar 0/10 a vlan11
+
+configure terminal
+interface fastethernet 0/10
+switchport mode access
+switchport access vlan 11
+end
+show running-config interface fastethernet 0/10
+show interfaces fastethernet 0/10 switchport
+
+Configurar o router
+conf t
+interface gigabitethernet 0/0
+ip address 172.16.11.254 255.255.255.0
+no shutdown
+exit
+
+conf t
+interface gigabitethernet 0/1
+ip address 172.16.1.19 255.255.255.0
+no shutdown
+exit

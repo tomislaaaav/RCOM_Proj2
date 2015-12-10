@@ -112,4 +112,14 @@ access-list 1 permit 172.16.10.0 0.0.0.7
 access-list 1 permit 172.16.11.0 0.0.0.7
 end
 
-/* FIM DA QUARTA EXPERIÊNCIA /
+/* FIM DA QUARTA EXPERIÊNCIA */
+
+/* INÍCIO DA QUINTA EXPERIÊNCIA */
+
+vi /etc/resolv.conf
+search netlab.fe.up.pt
+namserver 127.16.1.1
+
+ping www.google.pt
+
+/* FIM DA QUINTA EXPERIÊNCIA */

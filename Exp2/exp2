@@ -84,16 +84,16 @@ show running-config interface fastethernet 0/2
 show interfaces fastethernet 0/2 switchport
 
 Ir a tux11
-ping 172.16.10.254
-ping 172.16.11.1
+ping 172.16.10.254 (é suposto dar)
+ping 172.16.11.1 (não é suposto dar)
 
 Ir a tux12
-ping 172.16.10.1
-ping 172.16.10.254
+ping 172.16.10.1 (não dá)
+ping 172.16.10.254 (não dá)
 
 Ir a tux14
-ping 172.16.10.1
-ping 172.16.11.1
+ping 172.16.10.1 (dá)
+ping 172.16.11.1 (não dá)
 
 Ir a tux11 (com os wiresharks abertos em todos os tux)
 ping -b 172.16.10.255

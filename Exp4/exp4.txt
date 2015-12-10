@@ -1,5 +1,5 @@
-Ligar o cabo 1.2 ao router GEO/0
-Ligar um cabo router GEO/1 para 0/10
+Ligar o cabo 1.2 ao router GEO/1
+Ligar um cabo router GEO/0 para 0/10
 
 Adicionar 0/10 a vlan11
 

@@ -31,7 +31,7 @@ Entrar no tux12
 
 route add default gw 172.16.11.253
 
-route -n17
+route -n
 
 Entrar no tux11
 

@@ -36,5 +36,5 @@ arp -d 172.16.10.254
 arp -a
 (screenshot)
 
-ping 172.16.10.254
+ping 172.16.10.254 (é suposto dar)
 (logs guardados)

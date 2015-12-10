@@ -3,7 +3,6 @@
 ifconfig eth0 up
 ifconfig
 ifconfig eth0 172.16.10.254/24
-route add default gw 172.16.10.254
 
 ping 172.16.10.254
 
@@ -28,3 +27,18 @@ arp -d 172.16.10.1
 arp -d 172.16.11.1
 
 /* FIM DA TERCEIRA EXPERIÊNCIA */
+
+/* INÍCIO DA QUARTA EXPERIÊNCIA */
+route add default gw 172.16.11.254
+
+/* FIM DA QUARTA EXPERIÊNCIA */
+
+/* INÍCIO DA QUINTA EXPERIÊNCIA */
+
+vi /etc/resolv.conf
+search netlab.fe.up.pt
+namserver 127.16.1.1
+
+ping www.google.pt
+
+/* FIM DA QUINTA EXPERIÊNCIA */

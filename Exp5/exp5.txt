@@ -1,0 +1,7 @@
+Ir a todos os tuxs.
+vi /etc/resolv.conf
+search netlab.fe.up.pt
+namserver 127.16.1.1
+ESC para sair de edição (I para entrar), carregar Shift + Z + Z para sair.
+
+Dar ping à google em todos os tuxes (para já não funciona no tux11).

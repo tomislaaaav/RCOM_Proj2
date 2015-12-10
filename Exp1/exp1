@@ -10,7 +10,6 @@ tux14
 ifconfig eth0 up
 ifconfig
 ifconfig eth0 172.16.10.254/24
-route add default gw 172.16.10.254
 
 
 MAC = HWaddr -> 	tux11 - 00:0f:fe:8b:e4:ef

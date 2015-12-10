@@ -88,5 +88,11 @@ interface gigabitethernet 0/1
 ip address 172.16.1.19 255.255.255.0
 no shutdown
 exit
-
 end
+
+conf t
+ip route 0.0.0.0 0.0.0.0 172.16.1.254
+ip route 172.16.10.0 255.255.255.0 172.16.11.253
+end
+
+/* FIM DA QUARTA EXPERIÊNCIA /

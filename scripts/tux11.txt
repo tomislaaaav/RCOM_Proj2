@@ -76,3 +76,17 @@ switchport access vlan 11
 end
 show running-config interface fastethernet 0/10
 show interfaces fastethernet 0/10 switchport
+
+conf t
+interface gigabitethernet 0/0
+ip address 172.16.11.254 255.255.255.0
+no shutdown
+exit
+
+conf t
+interface gigabitethernet 0/1
+ip address 172.16.1.19 255.255.255.0
+no shutdown
+exit
+
+end

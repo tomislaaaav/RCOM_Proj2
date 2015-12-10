@@ -1,0 +1,8 @@
+Abrir o tux11.
+Correr o FTP Client e abrir o Wireshark.
+Verificar os logs.
+
+Correr o FTP Client e abrir o Wireshark.
+Abrir o tux12.
+Correr o FTP Client a meio do download anterior e abrir o Wireshark.
+Verificar os logs.
